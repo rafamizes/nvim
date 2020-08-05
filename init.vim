@@ -107,7 +107,7 @@ set nobackup
 set nowritebackup
 set noswapfile
 set smartcase
-set autoread " Automatically rereads changed files without asking me anything. 
+set autoread " Automatically rereads changed files without asking me anything.
 set incsearch
 set nohlsearch
 set wildmenu
@@ -119,7 +119,7 @@ set updatetime=250
 " Provides tab-completion for all file-related tasks
 set path+=**
 set complete+=kspell " enable complete work using dictionary
- 
+
 " Indentation
 filetype plugin indent on " Enable indentation rules that are file-type specific
 set autoindent " New lines inherit the indentation of previous lines.
@@ -158,11 +158,11 @@ autocmd FileType json syntax match Comment +\/\/.\+$+
 " Enable spell-checking for Markdown files
 autocmd BufRead,BufNewFile *.md setlocal spell
 
-" Enable spell-checking for git commits 
+" Enable spell-checking for git commits
 autocmd FileType gitcommit setlocal spell
 
 " Autocommand group for automatically set relative numbering.
-set number 
+set number
 set relativenumber
 :augroup numbertoggle
 :  au!
@@ -200,7 +200,7 @@ nmap <leader>bd :bdelete<CR>
 " Fzf mappings
 "
 " Searches for files under current directory
-nnoremap <leader>Ff :Files<CR> 
+nnoremap <leader>Ff :Files<CR>
  "Open buffers
 nnoremap <leader>Fb :Buffers<CR>
 "Lines in loaded buffers
