@@ -55,7 +55,6 @@ call plug#end()
 " Initialization Section.
 """""""""""""""""""""""""""""""""""
 
-
 " Enable Elite mode; no ARRRROWWS!!!!
 let g:elite_mode=1
 
@@ -63,10 +62,6 @@ let g:conoline_auto_enable = 1
 
 " enables tab name saving when session is saved.
 set sessionoptions+=tabpages,globals
-
-if (has("termguicolors"))
-  set termguicolors
-endif
 
 let g:gruvbox_italic = 1
 let g:gruvbox_filetype_hi_groups = 1
@@ -77,9 +72,8 @@ let g:gruvbox_invert_selection='0'
 let g:gruvbox_contrast_light='medium'
 let g:gruvbox_contrast_dark='medium'
 let g:gruvbox_improved_warnings=1
-let g:gruvbox_material_background = 'medium'
 
-let g:gruvbox_material_enable_italic = 1
+let g:gruvbox_material_background = 'medium'
 let g:gruvbox_material_disable_italic_comment = 0
 let g:gruvbox_material_enable_bold = 1
 let g:gruvbox_material_enable_italic = 1
@@ -106,6 +100,9 @@ let g:webdevicons_enable_airline_statusline = 1
 
 let g:indentLine_enabled = 1
 
+if (has("termguicolors"))
+  set termguicolors
+endif
 set background=light
 colorscheme gruvbox-material
 
