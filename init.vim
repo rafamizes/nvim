@@ -17,7 +17,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'gcmt/taboo.vim' " Enables tab naming.
-" Plug 'miyakogi/conoline.vim' " Enhances the cursorline.
+Plug 'miyakogi/conoline.vim' " Enhances the cursorline.
 Plug 'yggdroot/indentline' "Display indentation levels.
 " Custom Operators Plugins
 Plug 'tpope/vim-commentary'
