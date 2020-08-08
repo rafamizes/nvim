@@ -67,6 +67,7 @@ let g:gruvbox_material_enable_italic = 1
 let g:gruvbox_material_transparent_background = 0
 let g:gruvbox_material_diagnostic_line_highlight = 1
 let g:gruvbox_material_better_performance = 0
+let g:gruvbox_material_palette = 'mix'
 
 " Vim-Airline Configuration
 " enable paste detection
