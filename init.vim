@@ -45,7 +45,6 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Themes and appearance
 Plug 'ryanoasis/vim-devicons'
 Plug 'sainnhe/gruvbox-material'
-Plug 'cormacrelf/vim-colors-github'
 
 call plug#end()
 
