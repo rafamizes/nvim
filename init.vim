@@ -44,7 +44,6 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Themes and appearance
 Plug 'ryanoasis/vim-devicons'
-Plug 'morhetz/gruvbox'
 Plug 'sainnhe/gruvbox-material'
 Plug 'cormacrelf/vim-colors-github'
 
@@ -61,16 +60,6 @@ let g:conoline_auto_enable = 1
 
 " enables tab name saving when session is saved.
 set sessionoptions+=tabpages,globals
-
-let g:gruvbox_italic = 1
-let g:gruvbox_filetype_hi_groups = 1
-let g:gruvbox_plugin_hi_groups = 1
-let g:gruvbox_italicize_strings = 1
-let g:gruvbox_transp_bg = 1
-let g:gruvbox_invert_selection='0'
-let g:gruvbox_contrast_light='medium'
-let g:gruvbox_contrast_dark='medium'
-let g:gruvbox_improved_warnings=1
 
 let g:gruvbox_material_background = 'medium'
 let g:gruvbox_material_disable_italic_comment = 0
