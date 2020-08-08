@@ -46,6 +46,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Themes and appearance
 Plug 'ryanoasis/vim-devicons'
 Plug 'morhetz/gruvbox'
+Plug 'sainnhe/gruvbox-material'
 Plug 'cormacrelf/vim-colors-github'
 
 call plug#end()
@@ -63,6 +64,10 @@ let g:conoline_auto_enable = 1
 " enables tab name saving when session is saved.
 set sessionoptions+=tabpages,globals
 
+if (has("termguicolors"))
+  set termguicolors
+endif
+
 let g:gruvbox_italic = 1
 let g:gruvbox_filetype_hi_groups = 1
 let g:gruvbox_plugin_hi_groups = 1
@@ -72,9 +77,15 @@ let g:gruvbox_invert_selection='0'
 let g:gruvbox_contrast_light='medium'
 let g:gruvbox_contrast_dark='medium'
 let g:gruvbox_improved_warnings=1
+let g:gruvbox_material_background = 'medium'
 
-set background=light
-colorscheme gruvbox
+let g:gruvbox_material_enable_italic = 1
+let g:gruvbox_material_disable_italic_comment = 0
+let g:gruvbox_material_enable_bold = 1
+let g:gruvbox_material_enable_italic = 1
+let g:gruvbox_material_transparent_background = 0
+let g:gruvbox_material_diagnostic_line_highlight = 1
+let g:gruvbox_material_better_performance = 0
 
 " Vim-Airline Configuration
 " enable paste detection
@@ -82,7 +93,7 @@ let g:airline_detect_paste=1
 let g:airline#extensions#coc#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_splits = 1
-let g:airline_theme='gruvbox'
+let g:airline_theme='gruvbox_material'
 let g:airline#extensions#nrrwrgn#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t' " Show full file name instead of abbreviations
 let g:airline_powerline_fonts = 1                " Use powerline fonts for airline
@@ -94,6 +105,9 @@ let g:webdevicons_enable_airline_tabline = 1
 let g:webdevicons_enable_airline_statusline = 1
 
 let g:indentLine_enabled = 1
+
+set background=light
+colorscheme gruvbox-material
 
 """""""""""""""""""""""""""""""""""
 " Configuration Section.
@@ -137,9 +151,6 @@ packadd! justify
 set splitbelow " Create horizontal split on the bottom
 set splitright " Create vertical split on the right
 
-if (has("termguicolors"))
-  set termguicolors
-endif
 
 " Neovim terminal commands
 if has('nvim')
