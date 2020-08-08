@@ -35,10 +35,9 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
 Plug 'majutsushi/tagbar'
-" Dart programming language related plugins
-Plug 'dart-lang/dart-vim-plugin'
-"Plug 'natebosch/vim-lsc'
-" Plug 'natebosch/vim-lsc-dart'
+
+" Collection of language packs for (Neo)vim
+Plug 'sheerun/vim-polyglot' 
 
 " Deoplete - Completion frameword for NeoVim.
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
