@@ -129,7 +129,7 @@ set shiftwidth=2 " When shifting, indent using two spaces
 set smarttab    " Insert “tabstop” number of spaces when the “tab” key is pressed
 set softtabstop=2 " Sets the number of columns for a TAB.
 set tabstop=2 " Sets the width of a TAB to 2; still it is a actual \t. Vim will just interpret it having a width of 2.
-set textwidth=80" Column characters limit per line
+set textwidth=100" Column characters limit per line
 packadd! justify
 
 " Splitting
