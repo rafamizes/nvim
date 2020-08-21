@@ -94,6 +94,9 @@ endif
 set background=light
 colorscheme gruvbox-material
 
+" enables tagbar for Dart.
+let g:tagbar_type_dart = { 'ctagsbin': '~/.pub-cache/bin/dart_ctags' }
+
 """""""""""""""""""""""""""""""""""
 " Configuration Section.
 """""""""""""""""""""""""""""""""""
