@@ -195,6 +195,8 @@ nmap <leader>bq :bp <BAR> bd #<CR>
 nmap <leader>bl :ls<CR>
 " Deletes the current buffer.
 nmap <leader>bd :bdelete<CR>
+" Deletes the current buffer in terminal
+nmap <leader>td :bdelete!<CR>
 
 " Fzf mappings
 "
