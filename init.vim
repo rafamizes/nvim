@@ -169,7 +169,7 @@ set relativenumber
 :  autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber
 :augroup END
 " Fixes netrw's reluctance in showing line numbers.
-autocmd CursorHold * if (&filetype == 'netrw' && &number == 0) | set number | set relativenumber | endif
+:autocmd CursorHold * if (&filetype == 'netrw' && &number == 0) | set number | set relativenumber | endif
 
 " Allows to run a macro (hit @{register}) on selected region lines
 xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
