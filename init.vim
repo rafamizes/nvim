@@ -91,7 +91,7 @@ let g:indentLine_enabled = 1
 if (has("termguicolors"))
   set termguicolors
 endif
-set background=dark
+set background=light
 colorscheme gruvbox-material
 
 " enables tagbar for Dart.
