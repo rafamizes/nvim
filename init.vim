@@ -113,7 +113,8 @@ let g:tagbar_type_dart = { 'ctagsbin': '~/.pub-cache/bin/dart_ctags' }
 let g:clang_format#code_style = 'google'
 
 " ale settings
-" So that only coc provide auto-completion.
+" C/C++ Hint: if ccls cannot find system headers, run: g++ -E -x c++ - -v < /dev/null and
+" put the list of include paths into .ccls files
 let g:ale_disable_lsp = 1
 let g:ale_sign_column_always = 1
 let g:ale_sign_error = '✘'

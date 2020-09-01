@@ -17,15 +17,12 @@
         "cache": {
           "directory": "/tmp/ccls"
         },
-      "client": {
-        "snippetSupport": true
-      },
-      // This will re-index the file on buffer change which is definitely a performance hit. See if it works for you
-      "index": {
-        "onChange": true
-      },
-      // This is mandatory!
-      "highlight": { "lsRanges" : true }
+        // This will re-index the file on buffer change which is definitely a performance hit. See if it works for you
+        "index": {
+          "onChange": true
+        },
+        // This is mandatory!
+        "highlight": { "lsRanges" : true }
       }
     }
   }
