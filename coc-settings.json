@@ -1,9 +1,32 @@
 {
+  "diagnostic.displayByAle": true,
   "codeLens.enable": true,
   "diagnostic.errorSign": "✘",
   "diagnostic.warningSign": "⚠",
   "diagnostic.infoSign": "⚠",
   "coc.preferences.formatOnSaveFiletypes": [
     "dart"
-  ]
+  ],
+  "languageserver": {
+    "ccls": {
+      "command": "ccls",
+      "args": ["--log-file=/tmp/ccls.log", "-v=1"],
+      "filetypes": ["c", "cc", "cpp", "objc", "objcpp"],
+      "rootPatterns": [".ccls", "compile_commands.json", ".vim/", ".git/", ".hg/"],
+      "initializationOptions": {
+        "cache": {
+          "directory": "/tmp/ccls"
+        },
+      "client": {
+        "snippetSupport": true
+      },
+      // This will re-index the file on buffer change which is definitely a performance hit. See if it works for you
+      "index": {
+        "onChange": true
+      },
+      // This is mandatory!
+      "highlight": { "lsRanges" : true }
+      }
+    }
+  }
 }

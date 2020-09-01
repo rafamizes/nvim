@@ -42,6 +42,17 @@ Plug 'sheerun/vim-polyglot'
 " Deoplete - Completion frameword for NeoVim.
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+" Linting engine plugin
+Plug 'dense-analysis/ale'
+
+" c/c++ format plugin
+Plug 'rhysd/vim-clang-format'
+" Required  by clang-format
+Plug 'kana/vim-operator-user'
+
+" Semantic c++ highlighting
+Plug 'jackguo380/vim-lsp-cxx-highlight'
+
 " Themes and appearance
 Plug 'ryanoasis/vim-devicons'
 Plug 'sainnhe/gruvbox-material'
@@ -73,6 +84,7 @@ let g:gruvbox_material_palette = 'mix'
 " enable paste detection
 let g:airline_detect_paste=1
 let g:airline#extensions#coc#enabled = 1
+let g:airline#extensions#ale#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_splits = 1
 let g:airline_theme='gruvbox_material'
@@ -97,6 +109,20 @@ colorscheme gruvbox-material
 " enables tagbar for Dart.
 let g:tagbar_type_dart = { 'ctagsbin': '~/.pub-cache/bin/dart_ctags' }
 
+" clang format settings
+let g:clang_format#code_style = 'google'
+
+" ale settings
+" So that only coc provide auto-completion.
+let g:ale_disable_lsp = 1
+let g:ale_sign_column_always = 1
+let g:ale_sign_error = '✘'
+let g:ale_sign_warning = '⚠'
+
+" c++ syntax highlighting
+let g:cpp_class_scope_highlight = 1
+let g:cpp_member_variable_highlight = 1
+let g:cpp_class_decl_highlight = 1
 """""""""""""""""""""""""""""""""""
 " Configuration Section.
 """""""""""""""""""""""""""""""""""
@@ -132,7 +158,7 @@ set shiftwidth=2 " When shifting, indent using two spaces
 set smarttab    " Insert “tabstop” number of spaces when the “tab” key is pressed
 set softtabstop=2 " Sets the number of columns for a TAB.
 " set tabstop=2 " Sets the width of a TAB to 2; still it is a actual \t. Vim will just interpret it having a width of 2.
-set textwidth=100 " Column characters limit per line
+set textwidth=80 " Column characters limit per line
 packadd! justify
 
 " Splitting
