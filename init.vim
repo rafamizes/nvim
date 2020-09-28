@@ -52,6 +52,8 @@ Plug 'kana/vim-operator-user'
 
 " Semantic c++ highlighting
 Plug 'jackguo380/vim-lsp-cxx-highlight'
+" Extra highlighting for modern (17/20) C++.
+Plug 'bfrg/vim-cpp-modern'
 
 " Themes and appearance
 Plug 'ryanoasis/vim-devicons'
@@ -120,10 +122,15 @@ let g:ale_sign_column_always = 1
 let g:ale_sign_error = '✘'
 let g:ale_sign_warning = '⚠'
 
+let g:lsp_cxx_hl_use_text_props = 1
+" Enable highlighting of named requirements (C++20 library concepts)
+let g:cpp_named_requirements_highlight = 1
+let c_no_curly_error = 1
+
 " c++ syntax highlighting
-let g:cpp_class_scope_highlight = 1
-let g:cpp_member_variable_highlight = 1
-let g:cpp_class_decl_highlight = 1
+" let g:cpp_class_scope_highlight = 1
+" let g:cpp_member_variable_highlight = 1
+" let g:cpp_class_decl_highlight = 1
 """""""""""""""""""""""""""""""""""
 " Configuration Section.
 """""""""""""""""""""""""""""""""""
