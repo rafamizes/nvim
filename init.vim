@@ -73,9 +73,9 @@ let g:conoline_auto_enable = 1
 " enables tab name saving when session is saved.
 set sessionoptions+=tabpages,globals
 
-let g:gruvbox_material_background = 'hard'
+let g:gruvbox_material_background = 'medium'
 let g:gruvbox_material_disable_italic_comment = 0
-let g:gruvbox_material_enable_bold = 1
+let g:gruvbox_material_enable_bold = 0
 let g:gruvbox_material_enable_italic = 1
 let g:gruvbox_material_transparent_background = 0
 let g:gruvbox_material_diagnostic_line_highlight = 1
@@ -117,16 +117,22 @@ let g:clang_format#code_style = 'google'
 " ale settings
 " C/C++ Hint: if ccls cannot find system headers, run: g++ -E -x c++ - -v < /dev/null and
 " put the list of include paths into .ccls files
-let g:ale_disable_lsp = 1
+let g:ale_disable_lsp = 1 " disable all LSP features in Ale, so Ale and Coc work well together.
 let g:ale_sign_column_always = 1
 let g:ale_sign_error = '✘'
 let g:ale_sign_warning = '⚠'
+let g:ale_cpp_cc_executable = '<auto>'
+let g:ale_cpp_cc_options = '-std=c++17 -Wall Wextra -pedantic'
 
 let g:lsp_cxx_hl_use_text_props = 1
+
 " Enable highlighting of named requirements (C++20 library concepts)
 let g:cpp_named_requirements_highlight = 1
 let c_no_curly_error = 1
-
+" Enable highlighting of C++ attributes
+let g:cpp_attributes_highlight = 1
+" Disable function highlighting (affects both C and C++ files)
+let g:cpp_no_function_highlight = 0
 " c++ syntax highlighting
 " let g:cpp_class_scope_highlight = 1
 " let g:cpp_member_variable_highlight = 1
@@ -231,6 +237,11 @@ nmap <leader>bl :ls<CR>
 nmap <leader>bd :bdelete<CR>
 " Deletes the current buffer in terminal
 nmap <leader>td :bdelete!<CR>
+
+" Ale mappings
+" Navigate between errors quickly.
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
 " Fzf mappings
 "
