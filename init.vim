@@ -122,7 +122,7 @@ let g:ale_sign_column_always = 1
 let g:ale_sign_error = '✘'
 let g:ale_sign_warning = '⚠'
 let g:ale_cpp_cc_executable = '<auto>'
-let g:ale_cpp_cc_options = '-std=c++17 -Wall Wextra -pedantic'
+let g:ale_cpp_cc_options = '-std=c++17 -Wall -Wextra -pedantic -Wconversion -Wsign-conversion'
 
 let g:lsp_cxx_hl_use_text_props = 1
 
@@ -164,14 +164,15 @@ set complete+=kspell " enable complete work using dictionary
 
 " Indentation
 filetype plugin indent on " Enable indentation rules that are file-type specific
-" set autoindent " New lines inherit the indentation of previous lines.
+set autoindent " New lines inherit the indentation of previous lines.
 set smartindent  " Smart indent
-" set copyindent " Copy indentation from existing lines
-set expandtab " Convert tabs to spaces
+set copyindent " Copy indentation from existing lines
+" Convert tabs to spaces
+set expandtab
 set shiftwidth=2 " When shifting, indent using two spaces
-set smarttab    " Insert “tabstop” number of spaces when the “tab” key is pressed
+" set smarttab    " Insert “tabstop” number of spaces when the “tab” key is pressed
 set softtabstop=2 " Sets the number of columns for a TAB.
-" set tabstop=2 " Sets the width of a TAB to 2; still it is a actual \t. Vim will just interpret it having a width of 2.
+set tabstop=2 " Sets the width of a TAB to 2; still it is a actual \t. Vim will just interpret it having a width of 2.
 set textwidth=80 " Column characters limit per line
 packadd! justify
 
