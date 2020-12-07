@@ -3,7 +3,7 @@
   "codeLens.enable": true,
   "diagnostic.errorSign": "✘",
   "diagnostic.warningSign": "⚠",
-  "diagnostic.infoSign": "⚠",
+  "diagnostic.infoSign": "I",
   "coc.preferences.formatOnSaveFiletypes": [
     "dart"
   ],

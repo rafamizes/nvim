@@ -85,7 +85,7 @@ let g:gruvbox_material_palette = 'mix'
 " Vim-Airline Configuration
 " enable paste detection
 let g:airline_detect_paste=1
-let g:airline#extensions#coc#enabled = 1
+" let g:airline#extensions#coc#enabled = 1
 let g:airline#extensions#ale#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_splits = 1
@@ -118,11 +118,21 @@ let g:clang_format#code_style = 'google'
 " C/C++ Hint: if ccls cannot find system headers, run: g++ -E -x c++ - -v < /dev/null and
 " put the list of include paths into .ccls files
 let g:ale_disable_lsp = 1 " disable all LSP features in Ale, so Ale and Coc work well together.
+let g:ale_completion_autoimport = 1
 let g:ale_sign_column_always = 1
 let g:ale_sign_error = '✘'
 let g:ale_sign_warning = '⚠'
 let g:ale_cpp_cc_executable = '<auto>'
 let g:ale_cpp_cc_options = '-std=c++17 -Wall -Wextra -pedantic -Wconversion -Wsign-conversion'
+" linters run settings
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 0
+let g:ale_lint_on_save = 1
+" disable it if you don't want linters to run on opening a file
+let g:ale_lint_on_enter = 1
+
+" Ale's Omni-completion; press <C-x><C-o> for triggering completion manually.
+set omnifunc=ale#completion#OmniFunc
 
 let g:lsp_cxx_hl_use_text_props = 1
 
