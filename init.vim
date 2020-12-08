@@ -9,6 +9,7 @@
 " Plugins will be downloaded under the specified directory.
 call plug#begin('~/.local/share/nvim/plugged')
 Plug 'easymotion/vim-easymotion'
+Plug 'rhysd/clever-f.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-vinegar' " Simple file browser - It just enhances the built-in netrw plugin
