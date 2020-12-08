@@ -233,7 +233,7 @@ endfunction
 """""""""""""""""""""""""""""""""""
 " Key Mappings Section.
 """""""""""""""""""""""""""""""""""
-:let mapleader = ","
+map <Space> <Leader>
 
 " Buffer related mappings
 
@@ -255,6 +255,9 @@ nmap <leader>td :bdelete!<CR>
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
+" keep ';' and ',' as forward and backward f, F, t T searching.
+map ; <Plug>(clever-f-repeat-forward)
+map , <Plug>(clever-f-repeat-back)
 " Fzf mappings
 "
 " Searches for files under current directory
