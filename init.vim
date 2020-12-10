@@ -86,10 +86,12 @@ let g:gruvbox_material_palette = 'mix'
 " Vim-Airline Configuration
 " enable paste detection
 let g:airline_detect_paste=1
-" let g:airline#extensions#coc#enabled = 1
 let g:airline#extensions#ale#enabled = 1
-" let g:airline#extensions#tabline#enabled = 1
-" let g:airline#extensions#tabline#show_splits = 1
+let g:airline#extensions#tabline#enabled = 1
+" enhances performance to have the tagbar integration disabled and cache enabled.
+let g:airline#extensions#tagbar#enabled = 0
+let g:airline_highlighting_cache = 1
+
 let g:airline_theme='gruvbox_material'
 let g:airline#extensions#nrrwrgn#enabled = 1
 " let g:airline#extensions#tabline#fnamemod = ':t' " Show full file name instead of abbreviations
