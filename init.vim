@@ -187,11 +187,6 @@ set tabstop=2 " Sets the width of a TAB to 2; still it is a actual \t. Vim will 
 set textwidth=80 " Column characters limit per line
 packadd! justify
 
-" Splitting
-set splitbelow " Create horizontal split on the bottom
-set splitright " Create vertical split on the right
-
-
 " Neovim terminal commands
 if has('nvim')
   " To map <Esc> to exit terminal-mode:
