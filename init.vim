@@ -187,17 +187,10 @@ set tabstop=2 " Sets the width of a TAB to 2; still it is a actual \t. Vim will 
 set textwidth=80 " Column characters limit per line
 packadd! justify
 
-" Neovim terminal commands
-if has('nvim')
-  " To map <Esc> to exit terminal-mode:
-  tnoremap <Esc> <C-\><C-n>
-endif
-
 " Adds mouse support.
 if has('mouse')
   set mouse=a
 endif
-
 
 autocmd FileType json syntax match Comment +\/\/.\+$+
 
@@ -230,6 +223,7 @@ endfunction
 """""""""""""""""""""""""""""""""""
 map <Space> <Leader>
 
+tnoremap <Esc> <C-\><C-n>
 " Buffer related mappings
 
 " Move to the next buffer
