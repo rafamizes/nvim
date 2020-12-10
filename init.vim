@@ -88,11 +88,11 @@ let g:gruvbox_material_palette = 'mix'
 let g:airline_detect_paste=1
 " let g:airline#extensions#coc#enabled = 1
 let g:airline#extensions#ale#enabled = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_splits = 1
+" let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#show_splits = 1
 let g:airline_theme='gruvbox_material'
 let g:airline#extensions#nrrwrgn#enabled = 1
-let g:airline#extensions#tabline#fnamemod = ':t' " Show full file name instead of abbreviations
+" let g:airline#extensions#tabline#fnamemod = ':t' " Show full file name instead of abbreviations
 let g:airline_powerline_fonts = 1                " Use powerline fonts for airline
 
 " Devicons Configuration
@@ -103,11 +103,6 @@ let g:webdevicons_enable_airline_statusline = 1
 
 let g:indentLine_enabled = 1
 
-if (has("termguicolors"))
-  set termguicolors
-endif
-set background=light
-colorscheme gruvbox-material
 
 " enables tagbar for Dart.
 let g:tagbar_type_dart = { 'ctagsbin': '~/.pub-cache/bin/dart_ctags' }
@@ -152,8 +147,13 @@ let g:cpp_no_function_highlight = 0
 " Configuration Section.
 """""""""""""""""""""""""""""""""""
 :syntax enable
+if (has("termguicolors"))
+  set termguicolors
+endif
+set background=light
+colorscheme gruvbox-material
 set listchars=eol:$,tab:^I,trail:~,extends:>,precedes:<
-set hidden " some plugins requires set hidden.
+" set hidden some plugins requires set hidden.
 set encoding=utf-8
 set dictionary=/usr/share/dict/words
 set nobackup
