@@ -155,7 +155,7 @@ endif
 set background=light
 colorscheme gruvbox-material
 set listchars=eol:$,tab:^I,trail:~,extends:>,precedes:<
-" set hidden some plugins requires set hidden.
+set hidden " some plugins requires set hidden.
 set encoding=utf-8
 set dictionary=/usr/share/dict/words
 set nobackup
