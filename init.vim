@@ -152,7 +152,7 @@ let g:cpp_no_function_highlight = 0
 if (has("termguicolors"))
   set termguicolors
 endif
-set background=light
+set background=dark
 colorscheme gruvbox-material
 set listchars=eol:$,tab:^I,trail:~,extends:>,precedes:<
 set hidden " some plugins requires set hidden.
