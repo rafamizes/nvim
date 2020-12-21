@@ -167,6 +167,7 @@ set incsearch
 set nohlsearch
 set wildmenu
 set cmdheight=2
+set noshowmode
 " Better display for messages
 set signcolumn=yes
 set shortmess+=c
