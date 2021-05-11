@@ -1,9 +1,9 @@
 {
   "diagnostic.displayByAle": true,
-  "codeLens.enable": true,
   "diagnostic.errorSign": "✘",
   "diagnostic.warningSign": "⚠",
   "diagnostic.infoSign": "I",
+  "yank.highlight.enable": true,
   "coc.preferences.formatOnSaveFiletypes": [
     "dart"
   ],
@@ -16,6 +16,9 @@
       "initializationOptions": {
         "cache": {
           "directory": "/tmp/ccls"
+        },
+        "client": {
+          "snippetSupport": true
         },
         // This is mandatory!
         "highlight": { "lsRanges" : true }
