@@ -1,20 +1,24 @@
-" Plugins {{{
-"
-" Helps force plugins to load correctly when it is turned back on below
+" Helps force  plugins to load correctly when it is turned back on below
 " filetype off
 
-" Vim-Plug - A moderm Vim plugin manager
-" Plugins will be downloaded under the specified directory.
+" Vim-Plug - A moderm Vim plugin manager.
+" The plugins will be downloaded under the specified directory.
 call plug#begin('~/.local/share/nvim/plugged')
 
-" Simple file browser - It just enhances the built-in netrw plugin
+" Simple file browser - It just enhances netrw built-in plugin.
 Plug 'tpope/vim-vinegar'
 
-" Enhanced f, F, t, T commands.
+" Vim sugar for the UNIX shell commands that need it the most
+Plug 'tpope/vim-eunuch'
+
+" Enhances f, F, t, T commands.
 Plug 'rhysd/clever-f.vim'
 
 " Motions on speed!
 Plug 'easymotion/vim-easymotion'
+
+" Automatically clear search highlights after you move your cursor.
+Plug 'haya14busa/is.vim'
 
 " Enhances cursor line.
 Plug 'miyakogi/conoline.vim'
@@ -30,12 +34,9 @@ Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 
-" status bar
+" Pretty status bar
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-
-" floating terminal
-Plug 'voldikss/vim-floaterm'
 
 " Custom Operators Plugins
 Plug 'tpope/vim-commentary'
@@ -47,367 +48,323 @@ Plug 'michaeljsmith/vim-indent-object'
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-entire'
 Plug 'kana/vim-textobj-line'
-" Required  by clang-format
+" Required by 'rhysd/vim-clang-format'
 Plug 'kana/vim-operator-user'
-
-" Generic programming support
-" Plug 'Townk/vim-autoclose'
-Plug 'majutsushi/tagbar'
 
 " Git plugins
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
+" Programming languange tools
+"
 " Collection of language packs for (Neo)vim
-Plug 'sheerun/vim-polyglot' 
-
+Plug 'sheerun/vim-polyglot'
 " Deoplete - Completion frameword for NeoVim.
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Linting engine
+Plug 'dense-analysis/ale'
+Plug 'dart-lang/dart-vim-plugin'
+" Format c/c++ files
+Plug 'rhysd/vim-clang-format'
+" Semantic c++ highlighting
+Plug 'jackguo380/vim-lsp-cxx-highlight'
 
+" Markdown tooling
+"
 " Markdown preview on browser (If you have nodejs and yarn).
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'godlygeek/tabular'
-Plug 'plasticboy/vim-markdown'
-
-" Linting engine
-Plug 'dense-analysis/ale'
-
-" c/c++ related plugins
-" Format c/c++ files
-Plug 'rhysd/vim-clang-format'
-" Required  by clang-format
-Plug 'kana/vim-operator-user'
-
-" Semantic c++ highlighting
-Plug 'jackguo380/vim-lsp-cxx-highlight'
+Plug 'tpope/vim-markdown'
+" Enables folding by section headings in markdown documents.
+Plug 'masukomi/vim-markdown-folding'
 
 " Themes and appearance
 Plug 'ryanoasis/vim-devicons'
 Plug 'sainnhe/gruvbox-material'
 
+" (Prose) writing related plugins.
+" Fancy abbreviation replacements
+Plug 'tpope/vim-abolish'
+" Highlights only active paragraph
+Plug 'junegunn/limelight.vim'
+" Full screen writing mode
+Plug 'junegunn/goyo.vim'
+
 call plug#end()
-" }}}
 
-" Initialization. ----- {{{
+let g:indentLine_enabled = 1
 
-" Enable Elite mode; no ARRRROWWS!!!!
-  let g:elite_mode=1
+" Gruvbox-material
+let g:gruvbox_material_diagnostic_line_highlight = 1
+let g:gruvbox_material_diagnostic_text_highlight = 1
+let g:gruvbox_material_enable_bold = 0
+let g:gruvbox_material_enable_italic = 1
+let g:gruvbox_material_palette = 'mix'
+" let g:gruvbox_material_palette = 'material'
+let g:gruvbox_material_background = 'hard'
+" let g:gruvbox_material_background = 'medium'
+let g:gruvbox_material_current_word = 'bold'
+let g:gruvbox_material_sign_column_background = 'default'
+" let g:gruvbox_material_sign_column_background = 'none'
+let g:gruvbox_material_ui_contrast = 'high'
+" let g:gruvbox_material_ui_contrast = 'low'
+let g:gruvbox_material_statusline_style = 'mix'
+let g:gruvbox_material_better_performance = 1
 
-  let g:indentLine_enabled = 1
+" Airline settings
+let g:airline_powerline_fonts = 1
+let g:airline_theme='gruvbox_material'
+let g:airline#extensions#nrrwrgn#enabled = 1
+let g:airline#extensions#ale#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_splits = 1
+let g:airline#extensions#wordcount#enabled = 1
 
-  " Gruvbox-material
-  " enables highlighting error/warning/info/hint lines
-  let g:gruvbox_material_diagnostic_line_highlight = 1
-  let g:gruvbox_material_diagnostic_text_highlight = 1
-  let g:gruvbox_material_enable_bold = 0
-  let g:gruvbox_material_enable_italic = 1
-  " let g:gruvbox_material_palette = 'material'
-  let g:gruvbox_material_palette = 'mix'
-  let g:gruvbox_material_background = 'hard'
-  let g:gruvbox_material_current_word = 'bold'
-  let g:gruvbox_material_statusline_style = 'mix'
-  let g:gruvbox_material_better_performance = 1
+let g:lsp_cxx_hl_use_text_props = 1
+let c_no_curly_error = 1
+" clang format settings
+let g:clang_format#code_style = 'google'
+let g:ale_cpp_cc_options = '-std=c++17 -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wuseless-cast -Wshadow -Wno-deprecated -Wvla -Wextra-semi -Wnull-dereference -Wswitch-enum -Wduplicated-cond -Wduplicated-branches -Wsuggest-override -pipe'
 
-  " Airline settings {{{
-  let g:airline_powerline_fonts = 1
-  let g:airline_theme='gruvbox_material'
-  let g:airline#extensions#nrrwrgn#enabled = 1
-  let g:airline#extensions#ale#enabled = 1
-  let g:airline#extensions#tabline#enabled = 1
-  let g:airline#extensions#tabline#show_splits = 1
-  " }}}
+" Disabling Ale's auto completion prevents clashes with CoC.
+let g:ale_disable_lsp = 1
+let g:ale_sign_column_always = 1
+" ALE signs
+let g:ale_sign_error = '✘'
+let g:ale_sign_warning = '⚠'
 
-  let g:tagbar_type_dart = { 'ctagsbin': '~/.pub-cache/bin/dart_ctags' }
+" For plugins to load correctly
+filetype plugin indent on
+" Turn on syntax highlighting
+syntax on
 
-  " c++ related stuff {{{
-  let g:lsp_cxx_hl_use_text_props = 1
-  let c_no_curly_error = 1
-  " clang format settings
-  let g:clang_format#code_style = 'google'
-  let g:ale_cpp_cc_options = '-std=c++17 -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wuseless-cast -Wshadow -Wno-deprecated -Wvla -Wextra-semi -Wnull-dereference -Wswitch-enum -Wduplicated-cond -Wduplicated-branches -Wsuggest-override -pipe'
-  " }}}
+if has('mouse')
+  set mouse=a
+endif
 
-  " ALE related settings {{{
-  " C/C++ Hint: if ccls cannot find system headers, run: g++ -E -x c++ - -v < /dev/null and
-  " put the list of include paths into .ccls files
-  " desable ale lsp auto completion.
-  let g:ale_disable_lsp = 1
-  let g:ale_c_parse_makefile = 1
-  let g:ale_sign_column_always = 1
-  " ALE signs
-  let g:ale_sign_error = '✘'
-  let g:ale_sign_warning = '⚠'
-  " Fix files automatically on save
-  " let g:ale_fix_on_save = 1
+" Enable 24-bit true colors if your terminal supports it.
+if has('termguicolors')
+  set termguicolors
+endif
 
-  " quickfix instead of loclist.
-  let g:ale_set_loclist = 0
-  let g:ale_set_quickfix = 0
-  " }}}
 
-  " For plugins to load correctly
-  filetype plugin indent on
-  " Turn on syntax highlighting
-  syntax on
+set background=light
+colorscheme gruvbox-material
 
-  if has('termguicolors')
-    set termguicolors
-  endif
-  
-  if has('mouse')
-    set mouse=a
-  endif
+set signcolumn=yes
+" set spelllang=en_gb
+set spelllang=en_us
+set lazyredraw
 
-  set background=light
-  colorscheme gruvbox-material
+" enable netrw recursive copy of directories.
+let g:netrw_localcopydircmd = 'cp -r'
+set listchars=eol:$,tab:^I,trail:~,extends:>,precedes:<
+" Some plugins requires set hidden.
+set hidden
+set encoding=utf-8
+set dictionary+=/usr/share/dict/words
+set thesaurus+=/home/rafael/thesaurus/words.txt
+set backspace=indent,eol,start
+set splitbelow
+set splitright
+set autoread
+" set autowrite
+set nobackup
+set nowritebackup
+set noswapfile
+set smartcase
+set incsearch
+set hlsearch
+set cmdheight=2
+" Have mode in the status bar.
+set noshowmode
+" set showcmd
+" Better display for messages
+set shortmess+=c
+set updatetime=500
+" Provides tab-completion for all file-related tasks
+set path+=**
+set complete+=kspell " enable complete work using dictionary
 
-  set listchars=eol:$,tab:^I,trail:~,extends:>,precedes:<
-  " Some plugins requires set hidden.
-  set hidden
-  set encoding=utf-8
-  set dictionary=/usr/share/dict/words
-  set backspace=indent,eol,start
-  set nobackup
-  set nowritebackup
-  set noswapfile
-  set smartcase
-  set incsearch
-  set nohlsearch
-  set wildmenu
-  set cmdheight=2
-  set laststatus=2
-  " Have mode in the status bar.
-  set noshowmode
-  set showcmd
-  set signcolumn=yes
-  " Better display for messages
-  set shortmess+=c
-  set updatetime=250
-  " Provides tab-completion for all file-related tasks
-  set path+=**
-  set complete+=kspell " enable complete work using dictionary
+" Indentation and whitespaces
+set autoindent
+set smartindent
+set copyindent
+" Convert tabs to spaces
+set expandtab
+set shiftwidth=2
+set softtabstop=2
+set tabstop=2
+set textwidth=80
+set shiftround
 
-  " Indentation and whitespaces
-  set autoindent
-  set smartindent
-  set copyindent
-  " Convert tabs to spaces
-  set expandtab
-  set shiftwidth=2
-  set softtabstop=2
-  set tabstop=2
-  set textwidth=80
-  set noshiftround
+augroup spellchecking
+  autocmd!
+  " Enable spell checking for Markdown files
+  autocmd BufRead,BufNewFile *.md setlocal spell
+  " Enable spell checking for git commits
+  autocmd FileType gitcommit setlocal spell
+augroup END
 
-  " Automatically set foldmethod for better vim scripts visualization. {{{
-  augroup vimscriptfolding
-    autocmd!
-    autocmd FileType vim set foldmethod=marker | set foldcolumn=2
-  augroup END
-  " }}}
+augroup numbertoggling
+  set number
+  set relativenumber
+  au!
+  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+  autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber
+  " Fixes netrw's reluctance in showing line numbers.
+  autocmd CursorHold * if (&filetype == 'netrw' && &number == 0) | set number | set relativenumber | endif
+augroup END
 
-  " Automatically set spell checkgin for markdown and gitcommit files. ----- {{{
-  augroup spellchecking
-    autocmd!
-    " Enable spell-checking for Markdown files
-    autocmd BufRead,BufNewFile *.md setlocal spell
-    " Enable spell-checking for git commits
-    autocmd FileType gitcommit setlocal spell
-  augroup END
-  " }}}
+" Comment highlighting in json files.
+autocmd FileType json syntax match Comment +\/\/.\+$+
 
-  " Automatically set relative numbering. ----- {{{
-  augroup numbertoggle
-    set number
-    set relativenumber
-    au!
-    autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-    autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber
-    " Fixes netrw's reluctance in showing line numbers.
-    autocmd CursorHold * if (&filetype == 'netrw' && &number == 0) | set number | set relativenumber | endif
-  augroup END
-  " }}}
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
-  " Coc plugin related autocommands ----- {{{
-  augroup cocautocmd
-    au!
-    " Highlight symbol under cursor on CursorHold
-    autocmd CursorHold * silent call CocActionAsync('highlight')
-  augroup END
-  " }}}
+" Key mappings
+map <Space> <Leader>
 
-  " Allows to run a macro (hit @{register}) on selected region lines ----- {{{
-  xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
-  function! ExecuteMacroOverVisualRange()
-    echo "@".getcmdline()
-    execute ":'<,'>normal @".nr2char(getchar())
-  endfunction
-  " }}}
-" }}}
+" Assign 'quit of terminal mode' function to the esc key.
+tnoremap <Esc> <C-\><C-n>
+" Enable/disable indentation level displaying.
+noremap <leader>it :IndentLinesToggle<cr>
+" Edit, in a new split, vim's config file.
+nnoremap <leader>ve :vsplit $MYVIMRC<cr>
+" Update and sources the config file so that changes take effect immediately.
+nnoremap <leader>vs :update <Bar> source $MYVIMRC<cr> :AirlineRefresh<cr>
 
-" Key Mappings. ----- {{{
-  map <Space> <Leader>
+" Update current buffer.
+nnoremap <leader>bu :update<cr>
+" Update and source current buffer.
+nnoremap <leader>bs :update <Bar> source %<cr> :AirlineRefresh<cr>
+" Move to the next buffer
+nnoremap <leader>bn :bnext<CR>
+" Move to the previous buffer
+nnoremap <leader>bp :bprevious<CR>
+" Close buffer and move to the previous one
+nnoremap <leader>bq :bp <BAR> bd #<CR>
+" Show all open buffers and their status
+nnoremap <leader>bl :ls<CR>
+" Deletes the current buffer.
+nnoremap <leader>bd :bdelete<CR>
+" Deletes the current buffer in terminal
+nnoremap <leader>td :bdelete!<CR>
 
-  " Assign 'quit of terminal mode' function to the esc key.
-  tnoremap <Esc> <C-\><C-n>
-  " Enable/disable indentation level displaying.
-  noremap <leader>it :IndentLinesToggle<cr>
-  " Edit, in a new split, vim's config file.
-  nnoremap <leader>ve :vsplit $MYVIMRC<cr>
-  " Sources config file so that changes take effect immediately.
-  nnoremap <leader>vs :source $MYVIMRC<cr> :AirlineRefresh<cr>
+" Telescope plugin
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
-  " Buffer related mappings. --- {{{
-    " Update current buffer.
-    nnoremap <leader>bu :update<cr>
-    " Update and source current buffer.
-    nnoremap <leader>bs :update <Bar> source %<cr>
-    " Move to the next buffer
-    nnoremap <leader>bn :bnext<CR>
-    " Move to the previous buffer
-    nnoremap <leader>bp :bprevious<CR>
-    " Close buffer and move to the previous one
-    nnoremap <leader>bq :bp <BAR> bd #<CR>
-    " Show all open buffers and their status
-    nnoremap <leader>bl :ls<CR>
-    " Deletes the current buffer.
-    nnoremap <leader>bd :bdelete<CR>
-    " Deletes the current buffer in terminal
-    nnoremap <leader>td :bdelete!<CR>
-  " }}}
+" Ale
+map <silent> <C-k> <Plug>(ale_previous_wrap)
+map <silent> <C-j> <Plug>(ale_next_wrap)
 
-  " Inner parentheses mapping - can be thought as parameters movement.
-  onoremap <leader>p i(
+map ; <Plug>(clever-f-repeat-forward)
+map , <Plug>(clever-f-repeat-back)
 
-  " Find files using Telescope command-line sugar --- {{{
-    nnoremap <leader>ff <cmd>Telescope find_files<cr>
-    nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-    nnoremap <leader>fb <cmd>Telescope buffers<cr>
-    nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-  " }}}
-  " ALE mapping Navigate between errors quickly. ----- {{{
-    map <silent> <C-k> <Plug>(ale_previous_wrap)
-    map <silent> <C-j> <Plug>(ale_next_wrap)
-  " }}}
+nnoremap <S-Left> :tabprevious<CR>
+nnoremap <S-Right> :tabnext<CR>
 
-  " Keep ';' and ',' as forward and backward f, F, t T searching. ----- {{{
-    map ; <Plug>(clever-f-repeat-forward)
-    map , <Plug>(clever-f-repeat-back)
-  " }}}
-  
-  " Disable arrow movement, resize splits instead. ----- {{{
-    if get(g:, 'elite_mode')
-      nnoremap <Up>    :resize +2<CR>
-      nnoremap <Down>  :resize -2<CR>
-      nnoremap <Left>  :vertical resize +2<CR>
-      nnoremap <Right> :vertical resize -2<CR>
-    endif
-  " }}}
-  
-  " Remap arrow keys to tab switching. ----- {{{
-    nnoremap <S-Left> :tabprevious<CR>
-    nnoremap <S-Right> :tabnext<CR>
-  " }}}
+map <Leader>f <Plug>(easymotion-bd-f)
+nmap <Leader>f <Plug>(easymotion-overwin-f)
+" s{char}{char} to move to {char}{char}
+nmap <Leader>s <Plug>(easymotion-overwin-f2)
+" Move to line
+map <Leader>L <Plug>(easymotion-bd-jk)
+nmap <Leader>L <Plug>(easymotion-overwin-line)
+" Move to word
+map <Leader>w <Plug>(easymotion-bd-w)
+nmap <Leader>w <Plug>(easymotion-overwin-w)
 
-  " Easymotion mappings. ----- {{{
-    map <Leader>f <Plug>(easymotion-bd-f)
-    nmap <Leader>f <Plug>(easymotion-overwin-f)
-    " s{char}{char} to move to {char}{char}
-    nmap <Leader>s <Plug>(easymotion-overwin-f2)
-    " Move to line
-    map <Leader>L <Plug>(easymotion-bd-jk)
-    nmap <Leader>L <Plug>(easymotion-overwin-line)
-    " Move to word
-    map <Leader>w <Plug>(easymotion-bd-w)
-    nmap <Leader>w <Plug>(easymotion-overwin-w)
-  " }}}
+" Jump between hunks.
+nmap <leader>gn <Plug>(GitGutterNextHunk)
+nmap <leader>gp <Plug>(GitGutterPrevHunk)
+" Hunk-add and hunk-revert for chunk staging
+nmap <leader>ga <Plug>(GitGutterStageHunk)  " git add (chunk)
+nmap <Leader>gu <Plug>(GitGutterUndoHunk)   " git undo (chunk)
+" Hunk-preview -- Preview window for the hunk where the cursor is on
+nmap <Leader>gP <Plug>(GitGutterPreviewHunk)
 
-  " Git related mappings. {{{
-    " Jump between hunks.
-    nmap <leader>gn <Plug>(GitGutterNextHunk)
-    nmap <leader>gp <Plug>(GitGutterPrevHunk)
-    " Hunk-add and hunk-revert for chunk staging
-    nmap <Leader>ga <Plug>(GitGutterStageHunk)  " git add (chunk)
-    nmap <Leader>gu <Plug>(GitGutterUndoHunk)   " git undo (chunk)
-    " Hunk-preview -- Preview window for the hunk where the cursor is on
-    nmap <Leader>gP <Plug>(GitGutterPreviewHunk)
+nnoremap <Leader>gs :Git<CR> " git status
+" Show commits for every source line
+nnoremap <Leader>gb :Gblame<CR>  " git blame
 
-    nnoremap <Leader>gs :Git<CR> " git status
-    " Show commits for every source line
-    nnoremap <Leader>gb :Gblame<CR>  " git blame
-  " }}}
+" Wraps Flutter widget under cursor; ww = wrap widget.
+nnoremap <leader>ww %%Bi(child: %a)%i
 
-  " Macros for wrapping Flutter's Widgets.
-  " Wraps widget under cursor; ww = wrap widget.
-  nnoremap <leader>ww %%Bi(child: %a)%i
+" Applying codeAction to the selected region.
+" Example: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
 
-  " Tagbar plugin
-  nmap <F8> :TagbarToggle<CR>
+" Remap keys for applying codeAction to the current buffer.
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
+" Jump to definition
+nmap <leader>jd <Plug>(coc-definition)
 
-  " Coc related mappings. {{{
-    vmap <leader>a <Plug>(coc-codeaction-selected)
-    nmap <leader>a <Plug>(coc-codeaction-selected)
+" Map function and class text objects
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+xmap if <Plug>(coc-funcobj-i)
+omap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap af <Plug>(coc-funcobj-a)
+xmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
 
-    nmap <leader>rn <Plug>(coc-rename)
-    nnoremap <leader>prw :CocSearch <C-R>=expand("<cword>")<CR><CR>
-    " Remap for do codeAction of current line
-    nmap <leader>ac  <Plug>(coc-codeaction)
-    " Fix autofix problem of current line
-    nmap <leader>qf  <Plug>(coc-fix-current)
+" Use CTRL-S for selections ranges.
+" Requires 'textDocument/selectionRange' support of language server.
+nmap <silent> <C-s> <Plug>(coc-range-select)
+xmap <silent> <C-s> <Plug>(coc-range-select)
 
-    " Use `cp` and `cn` to navigate diagnostics
-    nmap <leader>[c <Plug>(coc-diagnostic-prev)
-    nmap <leader>]c <Plug>(coc-diagnostic-next)
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
 
-    " GoTo code navigation.
-    nmap <leader>jd <Plug>(coc-definition)
-    nmap <leader>jt <Plug>(coc-type-definition)
-    nmap <leader>ji <Plug>(coc-implementation)
-    nmap <leader>jr <Plug>(coc-references)
+" Add `:Fold` command to fold current buffer.
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
-    " Map function and class text objects
-    " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
-    xmap if <Plug>(coc-funcobj-i)
-    omap if <Plug>(coc-funcobj-i)
-    xmap af <Plug>(coc-funcobj-a)
-    omap af <Plug>(coc-funcobj-a)
-    xmap ic <Plug>(coc-classobj-i)
-    omap ic <Plug>(coc-classobj-i)
-    xmap ac <Plug>(coc-classobj-a)
-    omap ac <Plug>(coc-classobj-a)
+" Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 
-    " Use K to show documentation in preview window
-    nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-    " Add status line support, for integration with other plugin, checkout `:h coc-status`
-    set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-
-    " Use tab for trigger completion with characters ahead and navigate.
-    " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-    inoremap <silent><expr> <TAB>
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
-    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-    function! s:check_back_space() abort
-      let col = col('.') - 1
-      return !col || getline('.')[col - 1]  =~# '\s'
-    endfunction
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 
-    " Use <c-space> to trigger completion.
-    inoremap <silent><expr> <c-space> coc#refresh()
+" Use <c-space> to trigger completion.
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
 
-    " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-    " Coc only does snippet and additional edit on confirm.
-    inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" Make <CR> auto-select the the first completion item and notify coc.nvim to
+" format on enter, <cr> could be remapped by other vim plugin
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+      \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-    function! s:show_documentation()
-      if (index(['vim','help'], &filetype) >= 0)
-        execute 'h '.expand('<cword>')
-      else
-        call CocAction('doHover')
-      endif
-    endfunction
-  " }}}
-" }}}
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
