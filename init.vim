@@ -51,19 +51,34 @@ Plug 'kana/vim-textobj-line'
 " Required by 'rhysd/vim-clang-format'
 Plug 'kana/vim-operator-user'
 
+Plug 'jiangmiao/auto-pairs'
+Plug 'andymass/vim-matchup'
+
 " Git plugins
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
+" Simple yet powerful autocompletion  
+Plug 'ajh17/VimCompletesMe'
+
 " Programming languange tools
 "
 " Collection of language packs for (Neo)vim
-Plug 'sheerun/vim-polyglot'
-" Deoplete - Completion frameword for NeoVim.
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-" Linting engine
-Plug 'dense-analysis/ale'
+" Plug 'sheerun/vim-polyglot'
+
+" Dart/Flutter
 Plug 'dart-lang/dart-vim-plugin'
+" LSP: language server protocol — it enables autocompletion through language
+" analysis servers.
+Plug 'prabirshrestha/vim-lsp'
+" sensible LSP settings
+Plug 'mattn/vim-lsp-settings'
+" integrates LSP with ALE
+Plug 'rhysd/vim-lsp-ale'
+
+" Asynchronous Linting Engine
+Plug 'dense-analysis/ale'
+
 " Format c/c++ files
 Plug 'rhysd/vim-clang-format'
 " Semantic c++ highlighting
@@ -82,7 +97,6 @@ Plug 'masukomi/vim-markdown-folding'
 Plug 'ryanoasis/vim-devicons'
 Plug 'sainnhe/gruvbox-material'
 
-" (Prose) writing related plugins.
 " Fancy abbreviation replacements
 Plug 'tpope/vim-abolish'
 " Highlights only active paragraph
@@ -92,6 +106,32 @@ Plug 'junegunn/goyo.vim'
 
 call plug#end()
 
+let g:lsp_settings = {
+    \ 'analysis-server-dart-snapshot': {
+    \     'cmd': [
+    \         '/usr/lib/dart/bin/dart',
+    \         '/usr/lib/dart/bin/snapshots/analysis_server.dart.snapshot',
+    \         '--lsp'
+    \     ],
+    \ },
+\ }
+" It is disabled because the ALE plugin has been set to perform diagnostics.
+let g:lsp_diagnostics_enabled = 0 
+let g:lsp_document_highlight_enabled = 1
+
+" Let the LSP handle folding for me.
+let g:lsp_fold_enabled = 0
+set foldmethod=expr
+  \ foldexpr=lsp#ui#vim#folding#foldexpr()
+  \ foldtext=lsp#ui#vim#folding#foldtext()
+
+" allow modifying the completeopt variable, or it will
+" be overridden all the time
+let g:asyncomplete_auto_completeopt = 0
+set completeopt=menuone,noinsert,noselect,preview
+" set completeopt=menu,menuone,noinsert,noselect
+
+" let g:lsc_auto_map = v:true
 let g:indentLine_enabled = 1
 
 " Gruvbox-material
@@ -126,9 +166,11 @@ let c_no_curly_error = 1
 let g:clang_format#code_style = 'google'
 let g:ale_cpp_cc_options = '-std=c++17 -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wuseless-cast -Wshadow -Wno-deprecated -Wvla -Wextra-semi -Wnull-dereference -Wswitch-enum -Wduplicated-cond -Wduplicated-branches -Wsuggest-override -pipe'
 
-" Disabling Ale's auto completion prevents clashes with CoC.
+" Disabling Ale's auto completion prevents clashes with Autocompletion plugins.
 let g:ale_disable_lsp = 1
 let g:ale_sign_column_always = 1
+let g:ale_set_highlights = 1
+
 " ALE signs
 let g:ale_sign_error = '✘'
 let g:ale_sign_warning = '⚠'
@@ -147,14 +189,13 @@ if has('termguicolors')
   set termguicolors
 endif
 
-
 set background=light
 colorscheme gruvbox-material
 
 set signcolumn=yes
 " set spelllang=en_gb
 set spelllang=en_us
-set lazyredraw
+" set lazyredraw
 
 " enable netrw recursive copy of directories.
 let g:netrw_localcopydircmd = 'cp -r'
@@ -218,9 +259,6 @@ augroup END
 
 " Comment highlighting in json files.
 autocmd FileType json syntax match Comment +\/\/.\+$+
-
-" Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Key mappings
 map <Space> <Leader>
@@ -294,77 +332,32 @@ nnoremap <Leader>gb :Gblame<CR>  " git blame
 " Wraps Flutter widget under cursor; ww = wrap widget.
 nnoremap <leader>ww %%Bi(child: %a)%i
 
-" Applying codeAction to the selected region.
-" Example: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
+function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
+    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+    nmap <buffer> <leader>ca <plug>(lsp-code-action)
+    nmap <buffer> <leader>gd <plug>(lsp-definition)
+    nmap <buffer> <leader>gs <plug>(lsp-document-symbol-search)
+    nmap <buffer> <leader>gS <plug>(lsp-workspace-symbol-search)
+    nmap <buffer> <leader>gr <plug>(lsp-references)
+    nmap <buffer> <leader>gi <plug>(lsp-implementation)
+    nmap <buffer> <leader>gt <plug>(lsp-type-definition)
+    nmap <buffer> <leader>rn <plug>(lsp-rename)
+    " nmap <buffer> [g <plug>(lsp-previous-diagnostic)
+    " nmap <buffer> ]g <plug>(lsp-next-diagnostic)
+    nmap <buffer> K <plug>(lsp-hover)
+    " inoremap <buffer> <expr><c-f> lsp#scroll(+4)
+    " inoremap <buffer> <expr><c-d> lsp#scroll(-4)
 
-" Remap keys for applying codeAction to the current buffer.
-nmap <leader>ac  <Plug>(coc-codeaction)
-" Apply AutoFix to problem on the current line.
-nmap <leader>qf  <Plug>(coc-fix-current)
-" Jump to definition
-nmap <leader>jd <Plug>(coc-definition)
-
-" Map function and class text objects
-" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
-xmap if <Plug>(coc-funcobj-i)
-omap if <Plug>(coc-funcobj-i)
-xmap af <Plug>(coc-funcobj-a)
-omap af <Plug>(coc-funcobj-a)
-xmap ic <Plug>(coc-classobj-i)
-omap ic <Plug>(coc-classobj-i)
-xmap ac <Plug>(coc-classobj-a)
-omap ac <Plug>(coc-classobj-a)
-
-" Use CTRL-S for selections ranges.
-" Requires 'textDocument/selectionRange' support of language server.
-nmap <silent> <C-s> <Plug>(coc-range-select)
-xmap <silent> <C-s> <Plug>(coc-range-select)
-
-" Add `:Format` command to format current buffer.
-command! -nargs=0 Format :call CocAction('format')
-
-" Add `:Fold` command to fold current buffer.
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
-
-" Add `:OR` command for organize imports of the current buffer.
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
-
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+    " let g:lsp_format_sync_timeout = 1000
+    " autocmd! BufWritePre *.rs,*.go,*.dart call execute('LspDocumentFormatSync')
+    
+    " refer to doc to add more commands
 endfunction
 
-" Use <c-space> to trigger completion.
-if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
-else
-  inoremap <silent><expr> <c-@> coc#refresh()
-endif
-
-" Make <CR> auto-select the the first completion item and notify coc.nvim to
-" format on enter, <cr> could be remapped by other vim plugin
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-      \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  elseif (coc#rpc#ready())
-    call CocActionAsync('doHover')
-  else
-    execute '!' . &keywordprg . " " . expand('<cword>')
-  endif
-endfunction
-
-" Use K to show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+augroup lsp_install
+    au!
+    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
