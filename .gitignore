@@ -1,3 +1,7 @@
 # History related files/directories
 .netrwhist*
 .history/
+.ccls-cache/
+GPATH
+GRTAGS
+GTAGS

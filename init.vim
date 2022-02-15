@@ -5,20 +5,20 @@
 " The plugins will be downloaded under the specified directory.
 call plug#begin('~/.local/share/nvim/plugged')
 
+" defaults everyone can agree on
+" Plug 'tpope/vim-sensible'
 " Simple file browser - It just enhances netrw built-in plugin.
 Plug 'tpope/vim-vinegar'
-
 " Vim sugar for the UNIX shell commands that need it the most
 Plug 'tpope/vim-eunuch'
+" Fancy abbreviation replacements
+Plug 'tpope/vim-abolish'
 
 " Enhances f, F, t, T commands.
 Plug 'rhysd/clever-f.vim'
 
 " Motions on speed!
 Plug 'easymotion/vim-easymotion'
-
-" Automatically clear search highlights after you move your cursor.
-Plug 'haya14busa/is.vim'
 
 " Enhances cursor line.
 Plug 'miyakogi/conoline.vim'
@@ -34,10 +34,6 @@ Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 
-" Pretty status bar
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-
 " Custom Operators Plugins
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
@@ -51,38 +47,38 @@ Plug 'kana/vim-textobj-line'
 " Required by 'rhysd/vim-clang-format'
 Plug 'kana/vim-operator-user'
 
-Plug 'jiangmiao/auto-pairs'
-Plug 'andymass/vim-matchup'
+" Plug 'jiangmiao/auto-pairs'
 
 " Git plugins
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
-" Simple yet powerful autocompletion  
-Plug 'ajh17/VimCompletesMe'
+" Autocompletion on steroids
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Programming languange tools
 "
 " Collection of language packs for (Neo)vim
-" Plug 'sheerun/vim-polyglot'
+Plug 'sheerun/vim-polyglot'
+" Linting
+Plug 'vim-syntastic/syntastic'
 
-" Dart/Flutter
-Plug 'dart-lang/dart-vim-plugin'
-" LSP: language server protocol — it enables autocompletion through language
-" analysis servers.
-Plug 'prabirshrestha/vim-lsp'
-" sensible LSP settings
-Plug 'mattn/vim-lsp-settings'
-" integrates LSP with ALE
-Plug 'rhysd/vim-lsp-ale'
+" provides an easy way to browse the tags of the current file and get an
+" overview of its structure
+Plug 'preservim/tagbar'
+" Automates tag generation
+Plug 'xolox/vim-easytags'
+" Required by easytags
+Plug 'xolox/vim-misc'
+" structured code formats via content assist. 
+Plug 'mattn/emmet-vim'
 
-" Asynchronous Linting Engine
-Plug 'dense-analysis/ale'
-
+" C++
+"
 " Format c/c++ files
 Plug 'rhysd/vim-clang-format'
-" Semantic c++ highlighting
-Plug 'jackguo380/vim-lsp-cxx-highlight'
+" Enhanced C and C++ syntax highlighting.
+Plug 'bfrg/vim-cpp-modern'
 
 " Markdown tooling
 "
@@ -94,11 +90,13 @@ Plug 'tpope/vim-markdown'
 Plug 'masukomi/vim-markdown-folding'
 
 " Themes and appearance
-Plug 'ryanoasis/vim-devicons'
 Plug 'sainnhe/gruvbox-material'
+Plug 'altercation/vim-colors-solarized'
+Plug 'ryanoasis/vim-devicons'
+" Pretty status bar
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
-" Fancy abbreviation replacements
-Plug 'tpope/vim-abolish'
 " Highlights only active paragraph
 Plug 'junegunn/limelight.vim'
 " Full screen writing mode
@@ -106,32 +104,6 @@ Plug 'junegunn/goyo.vim'
 
 call plug#end()
 
-let g:lsp_settings = {
-    \ 'analysis-server-dart-snapshot': {
-    \     'cmd': [
-    \         '/usr/lib/dart/bin/dart',
-    \         '/usr/lib/dart/bin/snapshots/analysis_server.dart.snapshot',
-    \         '--lsp'
-    \     ],
-    \ },
-\ }
-" It is disabled because the ALE plugin has been set to perform diagnostics.
-let g:lsp_diagnostics_enabled = 0 
-let g:lsp_document_highlight_enabled = 1
-
-" Let the LSP handle folding for me.
-let g:lsp_fold_enabled = 0
-set foldmethod=expr
-  \ foldexpr=lsp#ui#vim#folding#foldexpr()
-  \ foldtext=lsp#ui#vim#folding#foldtext()
-
-" allow modifying the completeopt variable, or it will
-" be overridden all the time
-let g:asyncomplete_auto_completeopt = 0
-set completeopt=menuone,noinsert,noselect,preview
-" set completeopt=menu,menuone,noinsert,noselect
-
-" let g:lsc_auto_map = v:true
 let g:indentLine_enabled = 1
 
 " Gruvbox-material
@@ -145,90 +117,120 @@ let g:gruvbox_material_background = 'hard'
 " let g:gruvbox_material_background = 'medium'
 let g:gruvbox_material_current_word = 'bold'
 let g:gruvbox_material_sign_column_background = 'default'
-" let g:gruvbox_material_sign_column_background = 'none'
 let g:gruvbox_material_ui_contrast = 'high'
-" let g:gruvbox_material_ui_contrast = 'low'
 let g:gruvbox_material_statusline_style = 'mix'
+" let g:gruvbox_material_statusline_style = 'material'
 let g:gruvbox_material_better_performance = 1
 
 " Airline settings
 let g:airline_powerline_fonts = 1
 let g:airline_theme='gruvbox_material'
 let g:airline#extensions#nrrwrgn#enabled = 1
-let g:airline#extensions#ale#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_splits = 1
 let g:airline#extensions#wordcount#enabled = 1
+let g:airline#extensions#coc#enabled = 1
+let airline#extensions#coc#error_symbol = 'E:'
+let airline#extensions#coc#warning_symbol = 'W:'
 
-let g:lsp_cxx_hl_use_text_props = 1
-let c_no_curly_error = 1
-" clang format settings
 let g:clang_format#code_style = 'google'
-let g:ale_cpp_cc_options = '-std=c++17 -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wuseless-cast -Wshadow -Wno-deprecated -Wvla -Wextra-semi -Wnull-dereference -Wswitch-enum -Wduplicated-cond -Wduplicated-branches -Wsuggest-override -pipe'
 
-" Disabling Ale's auto completion prevents clashes with Autocompletion plugins.
-let g:ale_disable_lsp = 1
-let g:ale_sign_column_always = 1
-let g:ale_set_highlights = 1
+" enable netrw recursive copy of directories.
+let g:netrw_localcopydircmd = 'cp -r'
 
-" ALE signs
-let g:ale_sign_error = '✘'
-let g:ale_sign_warning = '⚠'
+" set text properties to cxx-highlight plugin
+" let g:lsp_cxx_hl_use_text_props = 1
 
-" For plugins to load correctly
-filetype plugin indent on
-" Turn on syntax highlighting
-syntax on
+" Prevents (n)vim from flaging braces as errors.
+let c_no_curly_error = 1
+" c++ syntax highlighting
+let g:cpp_concepts_highlight = 1
+" Disable function highlighting (affects both C and C++ files)
+let g:cpp_function_highlight = 0
+" Enable highlighting of C++11 attributes
+let g:cpp_attributes_highlight = 1
+" Highlight struct/class member variables (affects both C and C++ files)
+let g:cpp_member_highlight = 1
 
-if has('mouse')
-  set mouse=a
-endif
+" c++ linting
+let g:syntastic_cpp_checkers = ['cpplint', 'cppcheck']
+let g:syntastic_c_checkers = ['cpplint', 'cppcheck']
+let g:syntastic_cpp_cpplint_exec = 'cpplint'
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_aggregate_errors = 1
 
 " Enable 24-bit true colors if your terminal supports it.
 if has('termguicolors')
   set termguicolors
 endif
 
+" Enable mouse for scrolling and window resizing.
+if has('mouse')
+  set mouse=a
+endif
+
 set background=light
 colorscheme gruvbox-material
 
-set signcolumn=yes
-" set spelllang=en_gb
-set spelllang=en_us
-" set lazyredraw
+" Highlight line under cursor. It helps with navigation.
+" set cursorlineopt=number
+set cursorlineopt=line,number
 
-" enable netrw recursive copy of directories.
-let g:netrw_localcopydircmd = 'cp -r'
-set listchars=eol:$,tab:^I,trail:~,extends:>,precedes:<
-" Some plugins requires set hidden.
+" Set minimum window size to 79x5.
+set winwidth=80
+set winheight=2
+set winminheight=2
+" Hide buffers instead of asking if to save them.
 set hidden
-set encoding=utf-8
+" Use dash as word separator.
+set iskeyword+=-
+set incsearch
+set hlsearch
+set signcolumn=yes
+
 set dictionary+=/usr/share/dict/words
 set thesaurus+=/home/rafael/thesaurus/words.txt
-set backspace=indent,eol,start
+set complete+=kspell " enable complete work using dictionary
+
+" Do not fold by default. But if, do it up to 4 levels.
+set foldmethod=syntax
+set foldnestmax=4
+set nofoldenable
+
+" Disable output, vcs, archive, rails, temp and backup files.
+set wildignore+=*.o,*.out,*.obj,.git,*.rbc,*.rbo,*.class,.svn,*.gem
+set wildignore+=*.zip,*.tar.gz,*.tar.bz2,*.rar,*.tar.xz
+set wildignore+=*/vendor/gems/*,*/vendor/cache/*,*/.bundle/*,*/.sass-cache/*
+set wildignore+=*.swp,*~,._*
+
+" Always focus on splited window.
 set splitbelow
 set splitright
-set autoread
-" set autowrite
+" Set window title by default.
+set title
+
 set nobackup
 set nowritebackup
 set noswapfile
+set ignorecase
 set smartcase
 set incsearch
 set hlsearch
-set cmdheight=2
+set cmdheight=1
 " Have mode in the status bar.
 set noshowmode
-" set showcmd
+
 " Better display for messages
 set shortmess+=c
-set updatetime=500
-" Provides tab-completion for all file-related tasks
-set path+=**
+set updatetime=300
+" au CursorHold * sil call CocActionAsync('highlight')
+" au CursorHoldI * sil call CocActionAsync('showSignatureHelp')
 set complete+=kspell " enable complete work using dictionary
 
 " Indentation and whitespaces
-set autoindent
 set smartindent
 set copyindent
 " Convert tabs to spaces
@@ -260,8 +262,11 @@ augroup END
 " Comment highlighting in json files.
 autocmd FileType json syntax match Comment +\/\/.\+$+
 
-" Key mappings
-map <Space> <Leader>
+" Select your Leader key
+let mapleader = "\<Space>"
+" Auto center on matched string.
+" noremap n nzz
+" noremap N Nzz
 
 " Assign 'quit of terminal mode' function to the esc key.
 tnoremap <Esc> <C-\><C-n>
@@ -295,26 +300,23 @@ nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
-" Ale
-map <silent> <C-k> <Plug>(ale_previous_wrap)
-map <silent> <C-j> <Plug>(ale_next_wrap)
-
 map ; <Plug>(clever-f-repeat-forward)
 map , <Plug>(clever-f-repeat-back)
 
 nnoremap <S-Left> :tabprevious<CR>
 nnoremap <S-Right> :tabnext<CR>
 
-map <Leader>f <Plug>(easymotion-bd-f)
-nmap <Leader>f <Plug>(easymotion-overwin-f)
+" 'm' means 'motion'
+map <Leader>m <Plug>(easymotion-bd-f)
+nmap <Leader>m <Plug>(easymotion-overwin-f)
 " s{char}{char} to move to {char}{char}
-nmap <Leader>s <Plug>(easymotion-overwin-f2)
+nmap <Leader>mm <Plug>(easymotion-overwin-f2)
 " Move to line
-map <Leader>L <Plug>(easymotion-bd-jk)
-nmap <Leader>L <Plug>(easymotion-overwin-line)
+map <Leader>mL <Plug>(easymotion-bd-jk)
+nmap <Leader>mL <Plug>(easymotion-overwin-line)
 " Move to word
-map <Leader>w <Plug>(easymotion-bd-w)
-nmap <Leader>w <Plug>(easymotion-overwin-w)
+map <Leader>mw <Plug>(easymotion-bd-w)
+nmap <Leader>mw <Plug>(easymotion-overwin-w)
 
 " Jump between hunks.
 nmap <leader>gn <Plug>(GitGutterNextHunk)
@@ -332,32 +334,99 @@ nnoremap <Leader>gb :Gblame<CR>  " git blame
 " Wraps Flutter widget under cursor; ww = wrap widget.
 nnoremap <leader>ww %%Bi(child: %a)%i
 
-function! s:on_lsp_buffer_enabled() abort
-    setlocal omnifunc=lsp#complete
-    setlocal signcolumn=yes
-    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
-    nmap <buffer> <leader>ca <plug>(lsp-code-action)
-    nmap <buffer> <leader>gd <plug>(lsp-definition)
-    nmap <buffer> <leader>gs <plug>(lsp-document-symbol-search)
-    nmap <buffer> <leader>gS <plug>(lsp-workspace-symbol-search)
-    nmap <buffer> <leader>gr <plug>(lsp-references)
-    nmap <buffer> <leader>gi <plug>(lsp-implementation)
-    nmap <buffer> <leader>gt <plug>(lsp-type-definition)
-    nmap <buffer> <leader>rn <plug>(lsp-rename)
-    " nmap <buffer> [g <plug>(lsp-previous-diagnostic)
-    " nmap <buffer> ]g <plug>(lsp-next-diagnostic)
-    nmap <buffer> K <plug>(lsp-hover)
-    " inoremap <buffer> <expr><c-f> lsp#scroll(+4)
-    " inoremap <buffer> <expr><c-d> lsp#scroll(-4)
+" Coc related mappings
 
-    " let g:lsp_format_sync_timeout = 1000
-    " autocmd! BufWritePre *.rs,*.go,*.dart call execute('LspDocumentFormatSync')
-    
-    " refer to doc to add more commands
+:nnoremap <leader>e :CocCommand explorer<CR>
+
+" Use <c-space> to trigger completion.
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+
+map <silent> <C-k> <Plug>(coc-diagnostic-prev)
+map <silent> <C-j> <Plug>(coc-diagnostic-next)
+
+
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-augroup lsp_install
-    au!
-    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
-    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-augroup END
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
+" Formatting selected code.
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+" Applying codeAction to the selected region.
+" Example: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap keys for applying codeAction to the current buffer.
+nmap <leader>ca  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" GoTo code navigation.
+nmap <silent> <leader>gd <Plug>(coc-definition)
+nmap <silent> <leader>gy <Plug>(coc-type-definition)
+nmap <silent> <leader>gi <Plug>(coc-implementation)
+nmap <silent> <leader>gr <Plug>(coc-references)
+
+" Remap <C-f> and <C-b> for scroll float windows/popups.
+if has('nvim-0.4.0') || has('patch-8.2.0750')
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif
+
+" Map function and class text objects
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+xmap if <Plug>(coc-funcobj-i)
+omap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap af <Plug>(coc-funcobj-a)
+xmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
+
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
+
+" Add `:Fold` command to fold current buffer.
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
