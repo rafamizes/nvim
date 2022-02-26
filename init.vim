@@ -13,6 +13,8 @@ Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-eunuch'
 " Fancy abbreviation replacements
 Plug 'tpope/vim-abolish'
+" (neo)vim terminal in a floating/popup window.
+Plug 'voldikss/vim-floaterm'
 
 " Enhances f, F, t, T commands.
 Plug 'rhysd/clever-f.vim'
@@ -25,6 +27,9 @@ Plug 'miyakogi/conoline.vim'
 
 " Enables tab naming.
 Plug 'gcmt/taboo.vim'
+
+" Plug 'kien/rainbow_parentheses.vim'
+Plug 'junegunn/rainbow_parentheses.vim'
 
 " Displays thin vertical lines at each indentation level.
 Plug 'yggdroot/indentline'
@@ -63,18 +68,19 @@ Plug 'sheerun/vim-polyglot'
 " Linting
 Plug 'vim-syntastic/syntastic'
 
+" View and search LSP symbols — tags, in Vim/NeoVim.
+Plug 'liuchengxu/vista.vim'
 " provides an easy way to browse the tags of the current file and get an
 " overview of its structure
-Plug 'preservim/tagbar'
+" Plug 'preservim/tagbar'
 " Automates tag generation
-Plug 'xolox/vim-easytags'
+" Plug 'xolox/vim-easytags'
 " Required by easytags
-Plug 'xolox/vim-misc'
+" Plug 'xolox/vim-misc'
 " structured code formats via content assist. 
 Plug 'mattn/emmet-vim'
 
 " C++
-"
 " Format c/c++ files
 Plug 'rhysd/vim-clang-format'
 " Enhanced C and C++ syntax highlighting.
@@ -85,7 +91,7 @@ Plug 'bfrg/vim-cpp-modern'
 " Markdown preview on browser (If you have nodejs and yarn).
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'godlygeek/tabular'
-Plug 'tpope/vim-markdown'
+" Plug 'tpope/vim-markdown'
 " Enables folding by section headings in markdown documents.
 Plug 'masukomi/vim-markdown-folding'
 
@@ -102,9 +108,17 @@ Plug 'junegunn/limelight.vim'
 " Full screen writing mode
 Plug 'junegunn/goyo.vim'
 
+" Multiple cursors
+Plug 'mg979/vim-visual-multi'
+
 call plug#end()
 
 let g:indentLine_enabled = 1
+let g:vista_executive_for = {
+  \ 'dart': 'coc',
+  \ 'cpp': 'coc',
+  \ 'c': 'coc',
+  \ }
 
 " Gruvbox-material
 let g:gruvbox_material_diagnostic_line_highlight = 1
@@ -112,14 +126,11 @@ let g:gruvbox_material_diagnostic_text_highlight = 1
 let g:gruvbox_material_enable_bold = 0
 let g:gruvbox_material_enable_italic = 1
 let g:gruvbox_material_palette = 'mix'
-" let g:gruvbox_material_palette = 'material'
-let g:gruvbox_material_background = 'hard'
-" let g:gruvbox_material_background = 'medium'
+let g:gruvbox_material_background = 'medium'
 let g:gruvbox_material_current_word = 'bold'
 let g:gruvbox_material_sign_column_background = 'default'
 let g:gruvbox_material_ui_contrast = 'high'
 let g:gruvbox_material_statusline_style = 'mix'
-" let g:gruvbox_material_statusline_style = 'material'
 let g:gruvbox_material_better_performance = 1
 
 " Airline settings
@@ -139,7 +150,7 @@ let g:clang_format#code_style = 'google'
 let g:netrw_localcopydircmd = 'cp -r'
 
 " set text properties to cxx-highlight plugin
-" let g:lsp_cxx_hl_use_text_props = 1
+let g:lsp_cxx_hl_use_text_props = 1
 
 " Prevents (n)vim from flaging braces as errors.
 let c_no_curly_error = 1
@@ -156,16 +167,16 @@ let g:cpp_member_highlight = 1
 let g:syntastic_cpp_checkers = ['cpplint', 'cppcheck']
 let g:syntastic_c_checkers = ['cpplint', 'cppcheck']
 let g:syntastic_cpp_cpplint_exec = 'cpplint'
+let g:syntastic_cpp_cppcheck_exec = 'cppcheck'
+let g:syntastic_cpp_cppcheck_args = ["--enable=all", "--inline-suppr"]
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_aggregate_errors = 1
 
 " Enable 24-bit true colors if your terminal supports it.
-if has('termguicolors')
-  set termguicolors
-endif
+set termguicolors
 
 " Enable mouse for scrolling and window resizing.
 if has('mouse')
@@ -173,6 +184,7 @@ if has('mouse')
 endif
 
 set background=light
+" set background=dark
 colorscheme gruvbox-material
 
 " Highlight line under cursor. It helps with navigation.
@@ -198,6 +210,7 @@ set complete+=kspell " enable complete work using dictionary
 " Do not fold by default. But if, do it up to 4 levels.
 set foldmethod=syntax
 set foldnestmax=4
+set foldcolumn=2
 set nofoldenable
 
 " Disable output, vcs, archive, rails, temp and backup files.
@@ -219,7 +232,7 @@ set ignorecase
 set smartcase
 set incsearch
 set hlsearch
-set cmdheight=1
+set cmdheight=2
 " Have mode in the status bar.
 set noshowmode
 
@@ -262,11 +275,16 @@ augroup END
 " Comment highlighting in json files.
 autocmd FileType json syntax match Comment +\/\/.\+$+
 
+" Raibow autocommand
+let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}'],]
+au VimEnter * RainbowParentheses
+au Syntax * RainbowParentheses
+
 " Select your Leader key
 let mapleader = "\<Space>"
-" Auto center on matched string.
-" noremap n nzz
-" noremap N Nzz
+
+" Toggles Vista — View and search LSP symbosl (tags).
+nmap <F8> :Vista!!<CR>
 
 " Assign 'quit of terminal mode' function to the esc key.
 tnoremap <Esc> <C-\><C-n>
@@ -277,6 +295,13 @@ nnoremap <leader>ve :vsplit $MYVIMRC<cr>
 " Update and sources the config file so that changes take effect immediately.
 nnoremap <leader>vs :update <Bar> source $MYVIMRC<cr> :AirlineRefresh<cr>
 
+" Location Window
+nnoremap <leader>lf :lfirst<cr>
+nnoremap <leader>ll :llast<cr>
+nnoremap <leader>ln :lnext<cr>
+nnoremap <leader>lp :lprevious<cr>
+nnoremap <leader>lc :lclose<cr>
+nnoremap <leader>lo :lopen<cr>
 " Update current buffer.
 nnoremap <leader>bu :update<cr>
 " Update and source current buffer.
@@ -317,6 +342,7 @@ nmap <Leader>mL <Plug>(easymotion-overwin-line)
 " Move to word
 map <Leader>mw <Plug>(easymotion-bd-w)
 nmap <Leader>mw <Plug>(easymotion-overwin-w)
+
 
 " Jump between hunks.
 nmap <leader>gn <Plug>(GitGutterNextHunk)
@@ -430,3 +456,22 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
 " Add `:OR` command for organize imports of the current buffer.
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+
+" Use <C-l> for trigger snippet expand.
+imap <C-l> <Plug>(coc-snippets-expand)
+
+" Use <C-j> for select text for visual placeholder of snippet.
+vmap <C-j> <Plug>(coc-snippets-select)
+
+" Use <C-j> for jump to next placeholder, it's default of coc.nvim
+let g:coc_snippet_next = '<c-j>'
+
+" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+let g:coc_snippet_prev = '<c-k>'
+
+" Use <C-j> for both expand and jump (make expand higher priority.)
+imap <C-j> <Plug>(coc-snippets-expand-jump)
+
+" Use <leader>x for convert visual selected code to snippet
+xmap <leader>x  <Plug>(coc-convert-snippet)
