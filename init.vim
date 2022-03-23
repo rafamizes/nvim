@@ -28,7 +28,6 @@ Plug 'miyakogi/conoline.vim'
 " Enables tab naming.
 Plug 'gcmt/taboo.vim'
 
-" Plug 'kien/rainbow_parentheses.vim'
 Plug 'junegunn/rainbow_parentheses.vim'
 
 " Displays thin vertical lines at each indentation level.
@@ -77,7 +76,7 @@ Plug 'liuchengxu/vista.vim'
 " Plug 'xolox/vim-easytags'
 " Required by easytags
 " Plug 'xolox/vim-misc'
-" structured code formats via content assist. 
+" structured code formats via content assist.
 Plug 'mattn/emmet-vim'
 
 " C++
@@ -94,10 +93,9 @@ Plug 'godlygeek/tabular'
 " Plug 'tpope/vim-markdown'
 " Enables folding by section headings in markdown documents.
 Plug 'masukomi/vim-markdown-folding'
-
 " Themes and appearance
 Plug 'sainnhe/gruvbox-material'
-Plug 'altercation/vim-colors-solarized'
+Plug 'projekt0n/github-nvim-theme'
 Plug 'ryanoasis/vim-devicons'
 " Pretty status bar
 Plug 'vim-airline/vim-airline'
@@ -114,19 +112,19 @@ Plug 'mg979/vim-visual-multi'
 call plug#end()
 
 let g:indentLine_enabled = 1
+
 let g:vista_executive_for = {
   \ 'dart': 'coc',
-  \ 'cpp': 'coc',
-  \ 'c': 'coc',
   \ }
 
 " Gruvbox-material
 let g:gruvbox_material_diagnostic_line_highlight = 1
 let g:gruvbox_material_diagnostic_text_highlight = 1
-let g:gruvbox_material_enable_bold = 0
+let g:gruvbox_material_enable_bold = 1
 let g:gruvbox_material_enable_italic = 1
 let g:gruvbox_material_palette = 'mix'
-let g:gruvbox_material_background = 'medium'
+" let g:gruvbox_material_palette = 'original'
+let g:gruvbox_material_background = 'hard'
 let g:gruvbox_material_current_word = 'bold'
 let g:gruvbox_material_sign_column_background = 'default'
 let g:gruvbox_material_ui_contrast = 'high'
@@ -183,9 +181,10 @@ if has('mouse')
   set mouse=a
 endif
 
-set background=light
 " set background=dark
+set background=light
 colorscheme gruvbox-material
+" colorscheme github_light_default
 
 " Highlight line under cursor. It helps with navigation.
 " set cursorlineopt=number
@@ -276,6 +275,8 @@ augroup END
 autocmd FileType json syntax match Comment +\/\/.\+$+
 
 " Raibow autocommand
+" let g:rainbow#max_level = 16
+let g:rainbow#max_level = 24
 let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}'],]
 au VimEnter * RainbowParentheses
 au Syntax * RainbowParentheses
@@ -358,7 +359,9 @@ nnoremap <Leader>gs :Git<CR> " git status
 nnoremap <Leader>gb :Gblame<CR>  " git blame
 
 " Wraps Flutter widget under cursor; ww = wrap widget.
-nnoremap <leader>ww %%Bi(child: %a)%i
+nnoremap <leader>ww %%Bi(
+child: %a
+)%i
 
 " Coc related mappings
 
