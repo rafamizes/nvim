@@ -1,13 +1,7 @@
-" Helps force  plugins to load correctly when it is turned back on below
-" filetype off
-
 " Vim-Plug - A moderm Vim plugin manager.
 " The plugins will be downloaded under the specified directory.
 call plug#begin('~/.local/share/nvim/plugged')
 
-" defaults everyone can agree on
-" Plug 'tpope/vim-sensible'
-" Simple file browser - It just enhances netrw built-in plugin.
 Plug 'tpope/vim-vinegar'
 " Vim sugar for the UNIX shell commands that need it the most
 Plug 'tpope/vim-eunuch'
@@ -67,16 +61,11 @@ Plug 'sheerun/vim-polyglot'
 " Linting
 Plug 'vim-syntastic/syntastic'
 
+" Debug adapter
+Plug 'mfussenegger/nvim-dap'
+
 " View and search LSP symbols — tags, in Vim/NeoVim.
 Plug 'liuchengxu/vista.vim'
-" provides an easy way to browse the tags of the current file and get an
-" overview of its structure
-" Plug 'preservim/tagbar'
-" Automates tag generation
-" Plug 'xolox/vim-easytags'
-" Required by easytags
-" Plug 'xolox/vim-misc'
-" structured code formats via content assist.
 Plug 'mattn/emmet-vim'
 
 " C++
@@ -109,6 +98,12 @@ Plug 'junegunn/goyo.vim'
 " Multiple cursors
 Plug 'mg979/vim-visual-multi'
 
+" Snippets
+" Do not forget to install pynvim. Intall it by running: 'python3 -m pip install -user --upgrade pynvim'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'natebosch/dartlang-snippets'
+
 call plug#end()
 
 let g:indentLine_enabled = 1
@@ -120,25 +115,25 @@ let g:vista_executive_for = {
 " Gruvbox-material
 let g:gruvbox_material_diagnostic_line_highlight = 1
 let g:gruvbox_material_diagnostic_text_highlight = 1
-let g:gruvbox_material_enable_bold = 1
+let g:gruvbox_material_enable_bold = 0
 let g:gruvbox_material_enable_italic = 1
-let g:gruvbox_material_palette = 'mix'
-" let g:gruvbox_material_palette = 'original'
-let g:gruvbox_material_background = 'hard'
-let g:gruvbox_material_current_word = 'bold'
+let g:gruvbox_material_palette = 'material'
+" let g:gruvbox_material_palette = 'mix'
+let g:gruvbox_material_background = 'medium'
 let g:gruvbox_material_sign_column_background = 'default'
 let g:gruvbox_material_ui_contrast = 'high'
-let g:gruvbox_material_statusline_style = 'mix'
 let g:gruvbox_material_better_performance = 1
 
 " Airline settings
 let g:airline_powerline_fonts = 1
 let g:airline_theme='gruvbox_material'
+let g:airline#extensions#wordcount#enabled = 0
 let g:airline#extensions#nrrwrgn#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_splits = 1
-let g:airline#extensions#wordcount#enabled = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#coc#enabled = 1
+let g:airline#extensions#coc#show_coc_status = 1
 let airline#extensions#coc#error_symbol = 'E:'
 let airline#extensions#coc#warning_symbol = 'W:'
 
@@ -181,19 +176,10 @@ if has('mouse')
   set mouse=a
 endif
 
-" set background=dark
-set background=light
+set background=dark
+" set background=light
 colorscheme gruvbox-material
-" colorscheme github_light_default
 
-" Highlight line under cursor. It helps with navigation.
-" set cursorlineopt=number
-set cursorlineopt=line,number
-
-" Set minimum window size to 79x5.
-set winwidth=80
-set winheight=2
-set winminheight=2
 " Hide buffers instead of asking if to save them.
 set hidden
 " Use dash as word separator.
@@ -201,6 +187,8 @@ set iskeyword+=-
 set incsearch
 set hlsearch
 set signcolumn=yes
+set listchars=tab:>-,trail:-
+
 
 set dictionary+=/usr/share/dict/words
 set thesaurus+=/home/rafael/thesaurus/words.txt
@@ -231,15 +219,13 @@ set ignorecase
 set smartcase
 set incsearch
 set hlsearch
-set cmdheight=2
+set cmdheight=1
 " Have mode in the status bar.
-set noshowmode
+" set noshowmode
 
 " Better display for messages
 set shortmess+=c
 set updatetime=300
-" au CursorHold * sil call CocActionAsync('highlight')
-" au CursorHoldI * sil call CocActionAsync('showSignatureHelp')
 set complete+=kspell " enable complete work using dictionary
 
 " Indentation and whitespaces
@@ -262,20 +248,19 @@ augroup spellchecking
 augroup END
 
 augroup numbertoggling
-  set number
-  set relativenumber
+  " set relativenumber
+  " set number
   au!
-  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber | set number
   autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber
   " Fixes netrw's reluctance in showing line numbers.
-  autocmd CursorHold * if (&filetype == 'netrw' && &number == 0) | set number | set relativenumber | endif
+  autocmd CursorHold * if (&filetype == 'netrw' && &number == 0) | set relativenumber | set number | endif
 augroup END
 
 " Comment highlighting in json files.
 autocmd FileType json syntax match Comment +\/\/.\+$+
 
 " Raibow autocommand
-" let g:rainbow#max_level = 16
 let g:rainbow#max_level = 24
 let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}'],]
 au VimEnter * RainbowParentheses
@@ -284,41 +269,45 @@ au Syntax * RainbowParentheses
 " Select your Leader key
 let mapleader = "\<Space>"
 
+" jump to mark
+nnoremap <leader>j `
 " Toggles Vista — View and search LSP symbosl (tags).
-nmap <F8> :Vista!!<CR>
+nmap <F8> <Cmd>Vista!!<CR>
 
 " Assign 'quit of terminal mode' function to the esc key.
 tnoremap <Esc> <C-\><C-n>
 " Enable/disable indentation level displaying.
-noremap <leader>it :IndentLinesToggle<cr>
+noremap <leader>it <Cmd>IndentLinesToggle<cr>
 " Edit, in a new split, vim's config file.
-nnoremap <leader>ve :vsplit $MYVIMRC<cr>
+nnoremap <leader>ve <Cmd>vsplit $MYVIMRC<cr>
 " Update and sources the config file so that changes take effect immediately.
-nnoremap <leader>vs :update <Bar> source $MYVIMRC<cr> :AirlineRefresh<cr>
+nnoremap <leader>vs <Cmd>update <Bar> source $MYVIMRC<cr> <Cmd>AirlineRefresh<cr>
 
 " Location Window
-nnoremap <leader>lf :lfirst<cr>
-nnoremap <leader>ll :llast<cr>
-nnoremap <leader>ln :lnext<cr>
-nnoremap <leader>lp :lprevious<cr>
-nnoremap <leader>lc :lclose<cr>
-nnoremap <leader>lo :lopen<cr>
+nnoremap <leader>lf <Cmd>lfirst<cr>
+nnoremap <leader>ll <Cmd>llast<cr>
+nnoremap <leader>ln <Cmd>lnext<cr>
+nnoremap <leader>lp <Cmd>lprevious<cr>
+nnoremap <leader>lc <Cmd>lclose<cr>
+nnoremap <leader>lo <Cmd>lopen<cr>
 " Update current buffer.
-nnoremap <leader>bu :update<cr>
+nnoremap <leader>bu <Cmd>update<cr>
 " Update and source current buffer.
-nnoremap <leader>bs :update <Bar> source %<cr> :AirlineRefresh<cr>
+nnoremap <leader>bs <Cmd>update <Bar> source %<cr> <Cmd>AirlineRefresh<cr>
 " Move to the next buffer
-nnoremap <leader>bn :bnext<CR>
+nnoremap <leader>bn <Cmd>bnext<CR>
 " Move to the previous buffer
-nnoremap <leader>bp :bprevious<CR>
+nnoremap <leader>bp <Cmd>bprevious<CR>
 " Close buffer and move to the previous one
-nnoremap <leader>bq :bp <BAR> bd #<CR>
+nnoremap <leader>bq <Cmd>bp <BAR> bd #<CR>
 " Show all open buffers and their status
-nnoremap <leader>bl :ls<CR>
+nnoremap <leader>bl <Cmd>ls<CR>
+" Hides the current buffer.
+nnoremap <leader>bh <Cmd>hide<CR>
 " Deletes the current buffer.
-nnoremap <leader>bd :bdelete<CR>
+nnoremap <leader>bd <Cmd>bdelete<CR>
 " Deletes the current buffer in terminal
-nnoremap <leader>td :bdelete!<CR>
+nnoremap <leader>td <Cmd>bdelete!<CR>
 
 " Telescope plugin
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
@@ -329,8 +318,8 @@ nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 map ; <Plug>(clever-f-repeat-forward)
 map , <Plug>(clever-f-repeat-back)
 
-nnoremap <S-Left> :tabprevious<CR>
-nnoremap <S-Right> :tabnext<CR>
+nnoremap <S-Left> <Cmd>tabprevious<CR>
+nnoremap <S-Right> <Cmd>tabnext<CR>
 
 " 'm' means 'motion'
 map <Leader>m <Plug>(easymotion-bd-f)
@@ -354,18 +343,16 @@ nmap <Leader>gu <Plug>(GitGutterUndoHunk)   " git undo (chunk)
 " Hunk-preview -- Preview window for the hunk where the cursor is on
 nmap <Leader>gP <Plug>(GitGutterPreviewHunk)
 
-nnoremap <Leader>gs :Git<CR> " git status
+nnoremap <Leader>gs <Cmd>Git<CR> " git status
 " Show commits for every source line
-nnoremap <Leader>gb :Gblame<CR>  " git blame
+nnoremap <Leader>gb <Cmd>Gblame<CR>  " git blame
 
 " Wraps Flutter widget under cursor; ww = wrap widget.
-nnoremap <leader>ww %%Bi(
-child: %a
-)%i
+nnoremap <leader>ww %%Bi(child: %a)%i
 
 " Coc related mappings
 
-:nnoremap <leader>e :CocCommand explorer<CR>
+:nnoremap <leader>e <Cmd>CocCommand explorer<CR>
 
 " Use <c-space> to trigger completion.
 if has('nvim')
@@ -377,14 +364,12 @@ endif
 map <silent> <C-k> <Plug>(coc-diagnostic-prev)
 map <silent> <C-j> <Plug>(coc-diagnostic-next)
 
-
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
+
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
@@ -393,7 +378,7 @@ function! s:check_back_space() abort
 endfunction
 
 " Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+nnoremap <silent> K <Cmd>call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -452,19 +437,16 @@ xmap ac <Plug>(coc-classobj-a)
 omap ac <Plug>(coc-classobj-a)
 
 " Add `:Format` command to format current buffer.
-command! -nargs=0 Format :call CocAction('format')
+command! -nargs=0 Format <Cmd>call CocAction('format')
 
 " Add `:Fold` command to fold current buffer.
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+command! -nargs=? Fold <Cmd>call     CocAction('fold', <f-args>)
 
 " Add `:OR` command for organize imports of the current buffer.
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
-
+command! -nargs=0 OR   <Cmd>call     CocAction('runCommand', 'editor.action.organizeImport')
 
 " Use <C-l> for trigger snippet expand.
 imap <C-l> <Plug>(coc-snippets-expand)
-
-" Use <C-j> for select text for visual placeholder of snippet.
 vmap <C-j> <Plug>(coc-snippets-select)
 
 " Use <C-j> for jump to next placeholder, it's default of coc.nvim
@@ -475,6 +457,3 @@ let g:coc_snippet_prev = '<c-k>'
 
 " Use <C-j> for both expand and jump (make expand higher priority.)
 imap <C-j> <Plug>(coc-snippets-expand-jump)
-
-" Use <leader>x for convert visual selected code to snippet
-xmap <leader>x  <Plug>(coc-convert-snippet)

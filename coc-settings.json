@@ -1,13 +1,15 @@
 {
   "explorer.icon.enableNerdfont": true,
+  "flutter.provider.enableSnippet": true,
   "codeLens.enable": true,
   "diagnostic.errorSign": "✘",
-  "diagnostic.warningSign": "",
-  "diagnostic.infoSign": "",
+  "diagnostic.warningSign": "⚠",
+  "diagnostic.infoSign": "ℹ",
   "diagnostic.enableMessage": "always",
   "diagnostic.virtualText": true,
   "diagnostic.virtualTextCurrentLineOnly": true,
   "colors.filetypes": ["*"],
+  "highlight.colorNames.enable": false,
   "coc.preferences.formatOnSaveFiletypes": [
     "dart"
   ],
