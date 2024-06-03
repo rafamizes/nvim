@@ -68,6 +68,9 @@ Plug 'mfussenegger/nvim-dap'
 Plug 'liuchengxu/vista.vim'
 Plug 'mattn/emmet-vim'
 
+" Android
+Plug 'hsanson/vim-android'
+
 " C++
 " Format c/c++ files
 Plug 'rhysd/vim-clang-format'
@@ -120,8 +123,9 @@ let g:gruvbox_material_enable_italic = 1
 let g:gruvbox_material_palette = 'material'
 " let g:gruvbox_material_palette = 'mix'
 let g:gruvbox_material_background = 'medium'
+" let g:gruvbox_material_background = 'hard'
 let g:gruvbox_material_sign_column_background = 'default'
-let g:gruvbox_material_ui_contrast = 'high'
+" let g:gruvbox_material_ui_contrast = 'high'
 let g:gruvbox_material_better_performance = 1
 
 " Airline settings
@@ -136,6 +140,25 @@ let g:airline#extensions#coc#enabled = 1
 let g:airline#extensions#coc#show_coc_status = 1
 let airline#extensions#coc#error_symbol = 'E:'
 let airline#extensions#coc#warning_symbol = 'W:'
+
+"" vim-android Plugin
+" let g:gradle_path = '/opt/homebrew/bin/gradle'
+let g:android_sdk_path = '/Users/rafamizes/Library/Android/sdk'
+let g:gradle_daemon=1
+let g:gradle_show_signs=0
+let g:gradle_loclist_show=0
+let g:gradle_sync_on_load=1
+let g:netrw_browsex_viewer='google-chrome'
+let g:gradle_glyph_error=''
+let g:gradle_glyph_warning=''
+let g:gradle_glyph_gradle=''
+let g:gradle_glyph_android=''
+let g:gradle_glyph_building=''
+
+augroup GradleGroup
+  autocmd!
+  au BufWrite build.gradle call gradle#sync()
+augroup END
 
 let g:clang_format#code_style = 'google'
 
@@ -188,8 +211,6 @@ set incsearch
 set hlsearch
 set signcolumn=yes
 set listchars=tab:>-,trail:-
-
-
 set dictionary+=/usr/share/dict/words
 set thesaurus+=/home/rafael/thesaurus/words.txt
 set complete+=kspell " enable complete work using dictionary
@@ -232,12 +253,12 @@ set complete+=kspell " enable complete work using dictionary
 set smartindent
 set copyindent
 " Convert tabs to spaces
-set expandtab
-set shiftwidth=2
-set softtabstop=2
-set tabstop=2
-set textwidth=80
-set shiftround
+" set expandtab
+" set shiftwidth=2
+" set softtabstop=2
+" set tabstop=2
+" set textwidth=80
+" set shiftround
 
 augroup spellchecking
   autocmd!
@@ -248,8 +269,6 @@ augroup spellchecking
 augroup END
 
 augroup numbertoggling
-  " set relativenumber
-  " set number
   au!
   autocmd BufEnter,FocusGained,InsertLeave * set relativenumber | set number
   autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber
@@ -350,6 +369,14 @@ nnoremap <Leader>gb <Cmd>Gblame<CR>  " git blame
 " Wraps Flutter widget under cursor; ww = wrap widget.
 nnoremap <leader>ww %%Bi(child: %a)%i
 
+" it jumps to the bottom window — which should be the terminal window — and
+" reloads flutter — hot reload.
+" nnoremap <leader>fr <Cmd>FloatermFirst<CR>r<C-\><C-n><Cmd>FloatermHide<CR>
+nnoremap <leader>fr <C-w>jir<C-\><C-n><C-w>k
+" it jumps to the bottom window — which should be the terminal window — and
+" restarts flutter execution — hot restart.
+nnoremap <leader>fR <C-w>jiR<C-\><C-n><C-w>k
+
 " Coc related mappings
 
 :nnoremap <leader>e <Cmd>CocCommand explorer<CR>
@@ -437,13 +464,13 @@ xmap ac <Plug>(coc-classobj-a)
 omap ac <Plug>(coc-classobj-a)
 
 " Add `:Format` command to format current buffer.
-command! -nargs=0 Format <Cmd>call CocAction('format')
+command! -nargs=0 Format :call CocAction('format')
 
 " Add `:Fold` command to fold current buffer.
-command! -nargs=? Fold <Cmd>call     CocAction('fold', <f-args>)
+command! -nargs=? Fold :call CocAction('fold', <f-args>)
 
 " Add `:OR` command for organize imports of the current buffer.
-command! -nargs=0 OR   <Cmd>call     CocAction('runCommand', 'editor.action.organizeImport')
+command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
 
 " Use <C-l> for trigger snippet expand.
 imap <C-l> <Plug>(coc-snippets-expand)
